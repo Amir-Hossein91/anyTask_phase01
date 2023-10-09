@@ -5,8 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import java.util.List;
 
 @Entity
 @Getter
@@ -16,8 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Service extends BaseEntity {
+public class Assistance extends BaseEntity {
     private String title;
-    @OneToMany
-    private List<SubService> subServices;
+//    @OneToMany(mappedBy = "service")
+//    private List<SubService> subServices;
 }
