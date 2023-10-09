@@ -23,6 +23,6 @@ public class SubAssistance extends BaseEntity {
     @ManyToMany
     private List<Technician> technicians;
     @ManyToOne
-    private Assistance service;
-    private String description;
+    private Assistance assistance;
+    private String about;
 }

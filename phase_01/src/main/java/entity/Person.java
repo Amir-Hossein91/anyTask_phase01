@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @SequenceGenerator(name = "id_generator", sequenceName = "person_sequence")
@@ -25,4 +26,5 @@ public class Person extends BaseEntity {
     private String email;
     private String username;
     private String password;
+    private LocalDate registrationDate;
 }

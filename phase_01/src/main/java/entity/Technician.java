@@ -21,4 +21,5 @@ public class Technician extends Person{
     private long credit;
     @ManyToMany(mappedBy = "technicians")
     private List<SubAssistance> subAssistances;
+    private int score;
 }

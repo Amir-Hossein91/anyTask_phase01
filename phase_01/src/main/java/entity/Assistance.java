@@ -16,6 +16,5 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Assistance extends BaseEntity {
     private String title;
-//    @OneToMany(mappedBy = "service")
-//    private List<SubService> subServices;
+
 }

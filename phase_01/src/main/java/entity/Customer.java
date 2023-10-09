@@ -17,5 +17,4 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Customer extends Person {
     private long credit;
-    private String address;
 }
