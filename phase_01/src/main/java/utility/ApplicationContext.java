@@ -1,12 +1,16 @@
 package utility;
 
+import com.github.mfathi91.time.PersianDate;
 import entity.*;
 import repository.impl.*;
 import service.impl.*;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ApplicationContext {
+    public static final PersianDate currentPersianDate;
+    public static final LocalDate currentDate;
     public static final Printer printer;
     public static final Scanner input;
     private static final AssistanceRepositoryImpl assistanceRepository;
@@ -25,6 +29,8 @@ public class ApplicationContext {
     public static final TechnicianServiceImpl technicianService;
 
     static{
+        currentPersianDate = PersianDate.now();
+        currentDate = currentPersianDate.toGregorian();
         printer = new Printer();
         input = new Scanner(System.in);
         assistanceRepository = new AssistanceRepositoryImpl(Assistance.class);
