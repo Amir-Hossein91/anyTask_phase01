@@ -39,8 +39,8 @@ public class ApplicationContext {
         sourceAddress = "image_input";
         imageName = "technician_01";
         imageExtension = "jpg";
-        outputPath = Paths.get("image_output/" + imageName + ".jpg");
         inputPath = Paths.get(sourceAddress,imageName+"."+imageExtension);
+        outputPath = Paths.get("image_output/" + imageName + ".jpg");
         currentPersianDate = PersianDate.now();
         currentDate = currentPersianDate.toGregorian();
         printer = new Printer();
