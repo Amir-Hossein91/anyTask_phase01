@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Entity
@@ -21,10 +22,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @SuperBuilder
 public class Person extends BaseEntity {
+    @Pattern(regexp = "^[^\\d]{3,}$", message = "first name should be at least three characters and " +
+            "no digits are allowed")
     private String firstName;
+    @Pattern(regexp = "^[^\\d]{3,}$", message = "last name should be at least three characters and " +
+            "no digits are allowed")
     private String lastName;
+    @Column(unique = true)
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Invalid email address format")
     private String email;
+    @Column(unique = true)
     private String username;
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{8}$", message = "Password must be exactly " +
+            "8 characters containing digits and letters")
     private String password;
     private LocalDate registrationDate;
     private boolean isManager;

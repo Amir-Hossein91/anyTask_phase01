@@ -4,11 +4,9 @@ import entity.base.BaseEntity;
 import entity.enums.OrderStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,7 +29,9 @@ public class Order extends BaseEntity {
     private LocalDate orderRegistrationDateAndTime;
     @OneToOne
     private OrderDescription orderDescription;
+    @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
+    @Range(min = 1, max = 5, message = "Technician score should be between 1 and 5")
     private int technicianScore;
     @OneToMany(mappedBy = "order")
     private List<TechnicianSuggestion> technicianSuggestions;
