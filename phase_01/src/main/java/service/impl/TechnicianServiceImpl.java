@@ -35,7 +35,7 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
             byte[] image = Files.readAllBytes(path);
             return Technician.builder().firstName(firstname).lastName(lastname).email(email).username(username)
                     .password(password).registrationDate(registrationDate).score(0).credit(0).isActive(true)
-                    .technicianStatus(TechnicianStatus.PENDING).subAssistances(List.of())
+                    .technicianStatus(TechnicianStatus.NEW).subAssistances(List.of())
                     .image(image).isTechnician(true).build();
         } catch (IOException e) {
             printer.printError(e.getMessage());
