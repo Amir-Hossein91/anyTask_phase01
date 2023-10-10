@@ -3,5 +3,5 @@ package entity.enums;
 public enum TechnicianStatus {
     NEW,
     PENDING,
-    VERIFIED
+    APPROVED
 }
