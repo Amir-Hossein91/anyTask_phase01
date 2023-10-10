@@ -8,10 +8,12 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "orders")
 @SuperBuilder
 @Getter
 @Setter
@@ -31,7 +33,7 @@ public class Order extends BaseEntity {
     private OrderDescription orderDescription;
     private OrderStatus orderStatus;
     private int technicianScore;
-    @OneToMany
+    @OneToMany(mappedBy = "order")
     private List<TechnicianSuggestion> technicianSuggestions;
     private String techEvaluation;
 

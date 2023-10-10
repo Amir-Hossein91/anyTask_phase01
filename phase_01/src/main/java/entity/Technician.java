@@ -1,14 +1,11 @@
 package entity;
 
 import entity.enums.TechnicianStatus;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Fetch;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.io.File;
 import java.util.List;
 
@@ -19,13 +16,18 @@ import java.util.List;
 @Setter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Technician extends Person{
     private long credit;
     @ManyToMany(mappedBy = "technicians")
     private List<SubAssistance> subAssistances;
     private int score;
     private TechnicianStatus technicianStatus;
-    private File image;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
     private int numberOfFinishedTasks;
     private boolean isActive;
 }
