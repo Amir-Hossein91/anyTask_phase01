@@ -11,7 +11,8 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ApplicationContext {
-    public static final Path path;
+    public static final Path outputPath;
+    public static final Path inputPath;
     public static final String sourceAddress;
     public static final String imageName;
     public static final String imageExtension;
@@ -38,7 +39,8 @@ public class ApplicationContext {
         sourceAddress = "image_input";
         imageName = "technician_01";
         imageExtension = "jpg";
-        path = Paths.get(sourceAddress,imageName+"."+imageExtension);
+        outputPath = Paths.get("image_output/" + imageName + ".jpg");
+        inputPath = Paths.get(sourceAddress,imageName+"."+imageExtension);
         currentPersianDate = PersianDate.now();
         currentDate = currentPersianDate.toGregorian();
         printer = new Printer();

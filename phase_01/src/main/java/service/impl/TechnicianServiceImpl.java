@@ -58,4 +58,12 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
             return false;
         }
     }
+
+    public void saveImageToDirectory(Path path,byte[] image){
+        try {
+            Files.write(path,image);
+        } catch (IOException e) {
+            printer.printError(Constants.IMAGE_NOT_SAVED_TO_DIRECTORY);
+        }
+    }
 }
