@@ -1,11 +1,13 @@
 package service.impl;
 
 import basics.baseService.impl.BaseServiceImpl;
-import entity.Manager;
-import entity.Person;
-import entity.Technician;
+import entity.*;
+import exceptions.DuplicateAssistanceException;
+import exceptions.DuplicateSubAssistanceException;
+import exceptions.NoSuchAsssistanceCategoryException;
 import exceptions.NotFoundException;
 import repository.impl.PersonRepositoryImpl;
+import repository.impl.SubAssistanceRepositoryImpl;
 import repository.impl.TechnicianRepositoryImpl;
 import service.PersonService;
 import utility.ApplicationContext;
@@ -16,9 +18,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class PersonServiceImple extends BaseServiceImpl<PersonRepositoryImpl, Person> implements PersonService {
-    private ManagerServiceImpl managerService;
-    private CustomerServiceImpl customerService;
-    private static TechnicianServiceImpl technicianService;
+    private final ManagerServiceImpl managerService;
+    private final CustomerServiceImpl customerService;
+    private final TechnicianServiceImpl technicianService;
+    private final AssistanceServiceImpl assistanceService;
+    private final SubAssistanceServiceImpl subAssistanceService;
 
     public PersonServiceImple(PersonRepositoryImpl repository) {
         super(repository);
@@ -27,6 +31,10 @@ public class PersonServiceImple extends BaseServiceImpl<PersonRepositoryImpl, Pe
         TechnicianRepositoryImpl technicianRepository = new TechnicianRepositoryImpl(Technician.class);
         technicianService = new TechnicianServiceImpl(technicianRepository);
 //        technicianService = ApplicationContext.technicianService;
+        assistanceService = ApplicationContext.assistanceService;
+        SubAssistanceRepositoryImpl subAssistanceRepository = new SubAssistanceRepositoryImpl(SubAssistance.class);
+        subAssistanceService = new SubAssistanceServiceImpl(subAssistanceRepository);
+//        subAssistanceService = ApplicationContext.subAssistanceService;
     }
 
     public Person specifyPerson(){
@@ -85,13 +93,16 @@ public class PersonServiceImple extends BaseServiceImpl<PersonRepositoryImpl, Pe
                 return managerService.saveOrUpdate(manager);
             }
             case 2 -> {
-                Path path = ApplicationContext.path;
-                if(!technicianService.validateImage(path))
+                Path inputPath = ApplicationContext.inputPath;
+                Path outputPath = ApplicationContext.outputPath;
+                if(!technicianService.validateImage(inputPath))
                     return null;
-                Technician technician = technicianService.specifyTechnician(path);
+                Technician technician = technicianService.specifyTechnician(inputPath);
                 if(technician == null)
                     return null;
-                return technicianService.saveOrUpdate(technician);
+                Technician savedTechnician = technicianService.saveOrUpdate(technician);
+                technicianService.saveImageToDirectory(outputPath,savedTechnician.getImage());
+                return savedTechnician;
             }
             case 3 -> {
                 return customerService.saveOrUpdate(customerService.specifyCustomer());
@@ -114,4 +125,40 @@ public class PersonServiceImple extends BaseServiceImpl<PersonRepositoryImpl, Pe
             }
         }
     }
+
+    public void addAssistance(String username, String assistanceName){
+        Person person = findByUsername(username);
+        if(person instanceof Manager){
+            try {
+                if (assistanceService.findAssistance(assistanceName) != null)
+                    throw new DuplicateAssistanceException(Constants.ASSISTANCE_ALREADY_EXISTS);
+                Assistance assistance = Assistance.builder().title(assistanceName).build();
+                assistanceService.saveOrUpdate(assistance);
+            } catch (DuplicateAssistanceException e ){
+                printer.printError(e.getMessage());
+            }
+        }
+        else
+            printer.printError("Only manager can add assistance categories");
+    }
+
+    public void addSubAssistance(String username, String assistanceTitle, String subAssistanceTitle){
+        Person person = findByUsername(username);
+        if(person instanceof Manager){
+            try{
+                Assistance assistance = assistanceService.findAssistance(assistanceTitle);
+                if(assistance == null)
+                    throw new NoSuchAsssistanceCategoryException(Constants.NO_SUCH_ASSISTANCE_CATEGORY);
+                if(subAssistanceService.findSubAssistance(subAssistanceTitle,assistance) != null)
+                    throw new DuplicateSubAssistanceException(Constants.SUBASSISTANCE_ALREADY_EXISTS);
+                subAssistanceService.saveOrUpdate(subAssistanceService.specifySubAssistance(assistance, subAssistanceTitle));
+            } catch (DuplicateSubAssistanceException | NoSuchAsssistanceCategoryException e) {
+                printer.printError(e.getMessage());
+            }
+        }
+        else
+            printer.printError(("Only manager can add sub-assistance titles"));
+    }
+
+
 }
