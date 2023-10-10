@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
@@ -32,6 +33,8 @@ public class Person extends BaseEntity {
     @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Invalid email address format")
     private String email;
     @Column(unique = true)
+    @NotNull(message = "Username can not be null")
+    @Pattern(regexp = "^[^\\s]+$", message = "Username can not be empty")
     private String username;
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{8}$", message = "Password must be exactly " +
             "8 characters containing digits and letters")
