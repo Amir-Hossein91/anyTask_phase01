@@ -5,10 +5,16 @@ import entity.*;
 import repository.impl.*;
 import service.impl.*;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ApplicationContext {
+    public static final Path path;
+    public static final String sourceAddress;
+    public static final String imageName;
+    public static final String imageExtension;
     public static final PersianDate currentPersianDate;
     public static final LocalDate currentDate;
     public static final Printer printer;
@@ -19,7 +25,7 @@ public class ApplicationContext {
     private static final OrderRepositoryImpl orderRepository;
     private static final PersonRepositoryImpl personRepository;
     private static final SubAssistanceRepositoryImpl subAssistanceRepository;
-    private static final TechnicianRepositoryImpl technicianRepository;
+    public static final TechnicianRepositoryImpl technicianRepository;
     public static final AssistanceServiceImpl assistanceService;
     public static final CustomerServiceImpl customerService;
     public static final ManagerServiceImpl managerService;
@@ -29,6 +35,10 @@ public class ApplicationContext {
     public static final TechnicianServiceImpl technicianService;
 
     static{
+        sourceAddress = "image_input";
+        imageName = "technician_01";
+        imageExtension = "jpg";
+        path = Paths.get(sourceAddress,imageName+"."+imageExtension);
         currentPersianDate = PersianDate.now();
         currentDate = currentPersianDate.toGregorian();
         printer = new Printer();
