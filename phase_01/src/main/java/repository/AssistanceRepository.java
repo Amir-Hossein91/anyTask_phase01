@@ -1,5 +1,9 @@
 package repository;
 
+import entity.Assistance;
+
+import java.util.Optional;
+
 public interface AssistanceRepository {
-    boolean doesAssistanceExist(String assistanceName);
+    Optional<Assistance> findAssistance(String assistanceName);
 }

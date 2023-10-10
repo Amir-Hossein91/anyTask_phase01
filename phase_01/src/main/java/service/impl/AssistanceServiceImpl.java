@@ -5,6 +5,9 @@ import entity.Assistance;
 import repository.impl.AssistanceRepositoryImpl;
 import service.AssistanceService;
 
+import javax.validation.constraints.Null;
+import java.util.Optional;
+
 public class AssistanceServiceImpl extends BaseServiceImpl<AssistanceRepositoryImpl, Assistance> implements AssistanceService {
 
     public AssistanceServiceImpl(AssistanceRepositoryImpl repository) {
@@ -12,7 +15,7 @@ public class AssistanceServiceImpl extends BaseServiceImpl<AssistanceRepositoryI
     }
 
     @Override
-    public boolean doesAssistanceExist(String assistanceName) {
-        return repository.doesAssistanceExist(assistanceName);
+    public Assistance findAssistance(String assistanceName) {
+        return repository.findAssistance(assistanceName).orElse(null);
     }
 }

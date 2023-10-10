@@ -1,5 +1,9 @@
 package service;
 
+import entity.Assistance;
+
+import java.util.Optional;
+
 public interface AssistanceService {
-    boolean doesAssistanceExist(String assistanceName);
+    Assistance findAssistance(String assistanceName);
 }

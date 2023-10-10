@@ -1,5 +1,10 @@
 package repository;
 
+import entity.Assistance;
+import entity.SubAssistance;
+
+import java.util.Optional;
+
 public interface SubAssistanceRepository {
-    boolean doesSubAssistanceExist(String title, long assistanceId);
+    Optional<SubAssistance> findSubAssistance(String title, Assistance assistance);
 }

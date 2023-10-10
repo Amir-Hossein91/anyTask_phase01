@@ -1,5 +1,8 @@
 package service;
 
+import entity.Assistance;
+import entity.SubAssistance;
+
 public interface SubAsssistanceService {
-    boolean doesSubAssistanceExist(String title, long assistanceId);
+    SubAssistance findSubAssistance(String title, Assistance assistance);
 }

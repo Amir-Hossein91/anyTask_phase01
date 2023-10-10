@@ -1,10 +1,13 @@
 package repository.impl;
 
 import basics.baseRepository.impl.BaseRepositoryImpl;
+import entity.Assistance;
 import entity.SubAssistance;
 import repository.SubAssistanceRepository;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.util.Optional;
 
 public class SubAssistanceRepositoryImpl extends BaseRepositoryImpl<SubAssistance> implements SubAssistanceRepository {
 
@@ -13,11 +16,15 @@ public class SubAssistanceRepositoryImpl extends BaseRepositoryImpl<SubAssistanc
     }
 
     @Override
-    public boolean doesSubAssistanceExist(String title, long assistancId) {
+    public Optional<SubAssistance> findSubAssistance(String title, Assistance assistance) {
         String queryLine = "from SubAssistance where title=:t and assistance=:a";
         Query query = entityManager.createQuery(queryLine);
         query.setParameter("t",title);
-        query.setParameter("a",assistancId);
-        return !query.getResultList().isEmpty();
+        query.setParameter("a",assistance);
+        try {
+            return Optional.of((SubAssistance) query.getSingleResult());
+        } catch (NoResultException e){
+            return Optional.empty();
+        }
     }
 }
