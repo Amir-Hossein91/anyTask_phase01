@@ -17,5 +17,6 @@ public class Constants {
     public static final String TECHNICIAN_NOT_IN_LIST = "Technician is not assigned to this sub-assistance";
     public static final String NO_SUCH_SUBASSISTANCE = "Sub-assistance title does not exist";
     public static final String COULD_NOT_SAVE_THE_TECHNICIAN_LIST = "Could not save the list of technicians";
-    public static final String NO_UNAPPROVED_TECHNICIANS = "There is no unapproved technicians";
+    public static final String NO_UNAPPROVED_TECHNICIANS = "There is no unapproved technician";
+    public static final String NO_DEACTIVATED_TECHNICIANS = "There is no deactivated technician";
 }

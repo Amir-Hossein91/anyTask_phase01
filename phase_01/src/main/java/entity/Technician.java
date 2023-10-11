@@ -33,10 +33,10 @@ public class Technician extends Person{
     private boolean isActive;
 
     public String toString() {
-        return super.toString() +
+        return "[" + super.toString() +
                 ", score = " + this.getScore() +
                 ", technicianStatus = " + this.getTechnicianStatus() +
                 ", numberOfFinishedTasks = " + this.getNumberOfFinishedTasks() +
-                ", isActive = " + this.isActive();
+                ", isActive = " + this.isActive() + "] ";
     }
 }

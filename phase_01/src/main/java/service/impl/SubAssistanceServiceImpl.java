@@ -1,10 +1,8 @@
 package service.impl;
 
 import basics.baseService.impl.BaseServiceImpl;
-import entity.Assistance;
-import entity.Manager;
-import entity.Person;
-import entity.SubAssistance;
+import entity.*;
+import exceptions.DeactivatedTechnicianException;
 import exceptions.DuplicateSubAssistanceException;
 import exceptions.NoSuchAsssistanceCategoryException;
 import exceptions.NotFoundException;
@@ -13,7 +11,10 @@ import service.SubAsssistanceService;
 import utility.ApplicationContext;
 import utility.Constants;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SubAssistanceServiceImpl extends BaseServiceImpl<SubAssistanceRepositoryImpl, SubAssistance> implements SubAsssistanceService {
 
@@ -58,14 +59,41 @@ public class SubAssistanceServiceImpl extends BaseServiceImpl<SubAssistanceRepos
             printer.printError(("Only manager can add sub-assistance titles"));
     }
 
-    public List<String> seeSubAssistances (String managerName){
+    public List<String> showSubAssistances(String managerName){
         Person person = personService.findByUsername(managerName);
         if(person instanceof Manager){
             return findAll().stream().map(Object::toString).toList();
         }
         else {
-            printer.printError(("Only manager can see sub-assistance and their technicians"));
-            return List.of();
+            try{
+                if(person instanceof Technician && !((Technician) person).isActive())
+                    throw new DeactivatedTechnicianException(Constants.DEACTIVATED_TECHNICIAN);
+                List<SubAssistance> subAssistanceList = findAll();
+                Map<String,List<String>> result = new HashMap<>();
+                for(SubAssistance s : subAssistanceList){
+                    String assistance = s.getAssistance().getTitle();
+                    String subAssistance = s.getTitle() + "--> base price = " + s.getBasePrice()
+                            + ", description = " + s.getAbout();
+                    if(result.containsKey(assistance)){
+                        result.get(assistance).add(subAssistance);
+                    }
+                    else
+                        result.put(assistance,new ArrayList<>(List.of(subAssistance)));
+                }
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for(Map.Entry<String,List<String>> m : result.entrySet()){
+                    stringBuilder.append(m.getKey()).append(": \n");
+                    for(String s : result.get(m.getKey())){
+                        stringBuilder.append("\t*").append(s).append("\n");
+                    }
+                }
+                return List.of(stringBuilder.toString());
+            } catch (DeactivatedTechnicianException e){
+                printer.printError(e.getMessage());
+                return List.of();
+            }
+
         }
     }
 
