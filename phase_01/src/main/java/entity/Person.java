@@ -44,9 +44,9 @@ public class Person extends BaseEntity {
     private boolean isTechnician;
 
     public String toString() {
-        return  ", firstName = " + this.getFirstName() +
+        return  "firstName = " + this.getFirstName() +
                 ", lastName = " + this.getLastName() +
-                super.toString() +
+                ", " + super.toString() +
                 ", email = " + this.getEmail() +
                 ", username = " + this.getUsername() +
                 ", registrationDate = " + this.getRegistrationDate();
