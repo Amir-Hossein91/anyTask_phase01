@@ -3,11 +3,9 @@ package service.impl;
 import basics.baseService.impl.BaseServiceImpl;
 import entity.*;
 import entity.enums.TechnicianStatus;
-import exceptions.DeactivatedTechnicianException;
-import exceptions.DuplicateTechnicianException;
-import exceptions.InvalidImageException;
-import exceptions.NotFoundException;
+import exceptions.*;
 import repository.impl.TechnicianRepositoryImpl;
+import service.TechnicianService;
 import utility.ApplicationContext;
 import utility.Constants;
 
@@ -15,9 +13,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
-public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryImpl, Technician> {
+public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryImpl, Technician> implements TechnicianService {
 
     private final PersonServiceImple personService;
     private final SubAssistanceServiceImpl subAssistanceService;
@@ -45,7 +44,7 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
         try {
             byte[] image = Files.readAllBytes(path);
             return Technician.builder().firstName(firstname).lastName(lastname).email(email).username(username)
-                    .password(password).registrationDate(registrationDate).score(0).credit(0).isActive(true)
+                    .password(password).registrationDate(registrationDate).score(0).credit(0).isActive(false)
                     .technicianStatus(TechnicianStatus.NEW).subAssistances(List.of())
                     .image(image).isTechnician(true).build();
         } catch (IOException e) {
@@ -94,7 +93,7 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
                 if(!(technician instanceof Technician) || subAssistance == null)
                     throw new NotFoundException(Constants.TECHINICIAN_OR_SUBASSISTANCE_NOT_FOUND);
 
-                if(!((Technician) technician).isActive())
+                if(!((Technician) technician).isActive() && ((Technician) technician).getTechnicianStatus()==TechnicianStatus.APPROVED)
                     throw new DeactivatedTechnicianException(Constants.DEACTIVATED_TECHNICIAN);
 
                 List<Technician> technicians = subAssistance.getTechnicians();
@@ -103,6 +102,7 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
 
                 technicians.add((Technician) technician);
                 ((Technician) technician).setTechnicianStatus(TechnicianStatus.APPROVED);
+                ((Technician) technician).setActive(true);
                 subAssistanceService.saveOrUpdate(subAssistance);
 
             } catch (NotFoundException | DeactivatedTechnicianException | DuplicateTechnicianException e) {
@@ -142,5 +142,62 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
         }
         else
             printer.printError(("Only manager can remove technicians from a sub-assistance"));
+    }
+
+    @Override
+    public List<Technician> saveOrUpdate(List<Technician> technicians) {
+        try{
+            for(Technician t: technicians) {
+                if (!isValid(t))
+                    return null;
+            }
+            if(!transaction.isActive()){
+                transaction.begin();
+               technicians = repository.saveOrUpdate(technicians).orElse(null);
+                transaction.commit();
+            }
+            else
+                technicians = repository.saveOrUpdate(technicians).orElse(null);
+            if(technicians != null)
+                printer.printMessage("Technician list saved successfully!");
+            return technicians;
+        } catch (NotSavedException | RuntimeException e){
+            if(transaction.isActive())
+                transaction.rollback();
+            printer.printError(e.getMessage());
+            printer.printError(Arrays.toString(e.getStackTrace()));
+            input.nextLine();
+            return null;
+        }
+    }
+
+    public List<Technician> findUnapproved(){
+            return repository.findUnapproved().orElse(null);
+    }
+
+
+    public List<String> seeUnapprovedTechnicians(String managerUsername){
+
+        Person manager = personService.findByUsername(managerUsername);
+        if(manager instanceof Manager){
+            try{
+                List<Technician> technicians = repository.findUnapproved().orElse(null);
+                if(technicians == null)
+                    throw new NotFoundException(Constants.NO_UNAPPROVED_TECHNICIANS);
+                List<String> result = technicians.stream().map(Object::toString).toList();
+                for(Technician t : technicians)
+                    t.setTechnicianStatus(TechnicianStatus.PENDING);
+                saveOrUpdate(technicians);
+                return result;
+            } catch (NotFoundException e){
+                printer.printError(e.getMessage());
+                return null;
+            }
+
+        }
+        else {
+            printer.printError(("Only manager can see unapproved technicians"));
+            return null;
+        }
     }
 }
