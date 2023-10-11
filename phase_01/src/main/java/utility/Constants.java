@@ -10,4 +10,10 @@ public class Constants {
     public static final String ASSISTANCE_ALREADY_EXISTS = "Assistance already exists";
     public static final String NO_SUCH_ASSISTANCE_CATEGORY = "Assistance category does not exist";
     public static final String SUBASSISTANCE_ALREADY_EXISTS = "Sub-assistance already exists";
+    public static final String TECHINICIAN_OR_SUBASSISTANCE_NOT_FOUND = "Technician/sub-assistance not found";
+    public static final String ASSISTANCE_NOT_FOUND = "Assistance not found";
+    public static final String DEACTIVATED_TECHNICIAN = "Technician is deactivated";
+    public static final String DUPLICATE_TECHNICIAN_SUBASSISTANCE = "Technician is already assigned to the sub-assistance";
+    public static final String TECHNICIAN_NOT_IN_LIST = "Technician is not assigned to this sub-assistance";
+    public static final String NO_SUCH_SUBASSISTANCE = "Sub-assistance title does not exist";
 }
