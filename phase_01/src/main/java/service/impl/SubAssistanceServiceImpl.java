@@ -65,7 +65,7 @@ public class SubAssistanceServiceImpl extends BaseServiceImpl<SubAssistanceRepos
         }
         else {
             printer.printError(("Only manager can see sub-assistance and their technicians"));
-            return null;
+            return List.of();
         }
     }
 
