@@ -172,7 +172,12 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
     }
 
     public List<Technician> findUnapproved(){
-            return repository.findUnapproved().orElse(null);
+        return repository.findUnapproved().orElse(null);
+    }
+
+    @Override
+    public List<Technician> findDeactivated() {
+        return repository.findDeactivated().orElse(null);
     }
 
 
@@ -182,7 +187,7 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
         if(manager instanceof Manager){
             try{
                 List<Technician> technicians = repository.findUnapproved().orElse(null);
-                if(technicians == null)
+                if(technicians == null || technicians.isEmpty())
                     throw new NotFoundException(Constants.NO_UNAPPROVED_TECHNICIANS);
                 List<String> result = technicians.stream().map(Object::toString).toList();
                 for(Technician t : technicians)
@@ -197,6 +202,27 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
         }
         else {
             printer.printError(("Only manager can see unapproved technicians"));
+            return null;
+        }
+    }
+
+    public List<String> seeDeactivatedTechnicians(String managerUsername){
+
+        Person manager = personService.findByUsername(managerUsername);
+        if(manager instanceof Manager){
+            try{
+                List<Technician> technicians = repository.findDeactivated().orElse(null);
+                if(technicians == null || technicians.isEmpty())
+                    throw new NotFoundException(Constants.NO_DEACTIVATED_TECHNICIANS);
+                return technicians.stream().map(Object::toString).toList();
+            } catch (NotFoundException e){
+                printer.printError(e.getMessage());
+                return null;
+            }
+
+        }
+        else {
+            printer.printError(("Only manager can see deactivated technicians"));
             return null;
         }
     }

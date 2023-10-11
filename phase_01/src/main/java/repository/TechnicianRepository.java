@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface TechnicianRepository {
     Optional<List<Technician>> saveOrUpdate(List<Technician> technicians) throws NotSavedException;
     Optional<List<Technician>> findUnapproved();
+    Optional<List<Technician>> findDeactivated();
 }

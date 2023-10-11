@@ -36,4 +36,15 @@ public class TechnicianRepositoryImpl extends BaseRepositoryImpl<Technician> imp
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<List<Technician>> findDeactivated() {
+        String queryLine = "from Technician where technicianStatus = 'APPROVED' and isActive = false";
+        Query query = entityManager.createQuery(queryLine);
+        try {
+            return Optional.of((List<Technician>) query.getResultList());
+        } catch (NoResultException e){
+            return Optional.empty();
+        }
+    }
 }
