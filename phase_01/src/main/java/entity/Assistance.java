@@ -13,10 +13,12 @@ import javax.validation.constraints.NotNull;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class Assistance extends BaseEntity {
     @NotNull(message = "Assistance title can not be null")
     private String title;
 
+    public String toString() {
+        return  this.getTitle() ;
+    }
 }

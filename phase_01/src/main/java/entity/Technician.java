@@ -3,11 +3,9 @@ package entity;
 import entity.enums.TechnicianStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import java.io.File;
 import java.util.List;
 
 @Entity
@@ -15,7 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
@@ -34,4 +31,12 @@ public class Technician extends Person{
     @Range(min = 0, message = "Number of finished tasks can not be negative")
     private int numberOfFinishedTasks;
     private boolean isActive;
+
+    public String toString() {
+        return super.toString() +
+                ", score = " + this.getScore() +
+                ", technicianStatus = " + this.getTechnicianStatus() +
+                ", numberOfFinishedTasks = " + this.getNumberOfFinishedTasks() +
+                ", isActive = " + this.isActive();
+    }
 }

@@ -17,7 +17,6 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,4 +42,13 @@ public class Person extends BaseEntity {
     private boolean isManager;
     private boolean isCustomer;
     private boolean isTechnician;
+
+    public String toString() {
+        return  ", firstName = " + this.getFirstName() +
+                ", lastName = " + this.getLastName() +
+                super.toString() +
+                ", email = " + this.getEmail() +
+                ", username = " + this.getUsername() +
+                ", registrationDate = " + this.getRegistrationDate();
+    }
 }
