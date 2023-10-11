@@ -2,12 +2,14 @@ package entity;
 
 import entity.base.BaseEntity;
 import entity.enums.OrderStatus;
+import jdk.jfr.Timestamp;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,8 +28,9 @@ public class Order extends BaseEntity {
     private Customer customer;
     @OneToOne
     private Technician technician;
-    private LocalDate orderRegistrationDateAndTime;
+    private LocalDateTime orderRegistrationDateAndTime;
     @OneToOne
+    @Cascade(value = org.hibernate.annotations.CascadeType.PERSIST)
     private OrderDescription orderDescription;
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
