@@ -4,6 +4,8 @@ import entity.base.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Range;
+import utility.ApplicationContext;
+import utility.Printer;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -17,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class SubAssistance extends BaseEntity {
     @NotNull(message = "Sub-assistance title can not be null")
@@ -30,4 +31,12 @@ public class SubAssistance extends BaseEntity {
     private Assistance assistance;
     @NotNull(message = "Sub-assistance should have some descriptions")
     private String about;
+
+    public String toString() {
+        return "title = " + this.getTitle() +
+                "\n\tassistance category = " + this.getAssistance() +
+                "\n\tbasePrice = " + this.getBasePrice() +
+                "\n\ttechnicians = " + this.getTechnicians() +
+                "\n\tabout = " + this.getAbout();
+    }
 }
