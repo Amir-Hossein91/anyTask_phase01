@@ -126,39 +126,8 @@ public class PersonServiceImple extends BaseServiceImpl<PersonRepositoryImpl, Pe
         }
     }
 
-    public void addAssistance(String username, String assistanceName){
-        Person person = findByUsername(username);
-        if(person instanceof Manager){
-            try {
-                if (assistanceService.findAssistance(assistanceName) != null)
-                    throw new DuplicateAssistanceException(Constants.ASSISTANCE_ALREADY_EXISTS);
-                Assistance assistance = Assistance.builder().title(assistanceName).build();
-                assistanceService.saveOrUpdate(assistance);
-            } catch (DuplicateAssistanceException e ){
-                printer.printError(e.getMessage());
-            }
-        }
-        else
-            printer.printError("Only manager can add assistance categories");
-    }
 
-    public void addSubAssistance(String username, String assistanceTitle, String subAssistanceTitle){
-        Person person = findByUsername(username);
-        if(person instanceof Manager){
-            try{
-                Assistance assistance = assistanceService.findAssistance(assistanceTitle);
-                if(assistance == null)
-                    throw new NoSuchAsssistanceCategoryException(Constants.NO_SUCH_ASSISTANCE_CATEGORY);
-                if(subAssistanceService.findSubAssistance(subAssistanceTitle,assistance) != null)
-                    throw new DuplicateSubAssistanceException(Constants.SUBASSISTANCE_ALREADY_EXISTS);
-                subAssistanceService.saveOrUpdate(subAssistanceService.specifySubAssistance(assistance, subAssistanceTitle));
-            } catch (DuplicateSubAssistanceException | NoSuchAsssistanceCategoryException e) {
-                printer.printError(e.getMessage());
-            }
-        }
-        else
-            printer.printError(("Only manager can add sub-assistance titles"));
-    }
+
 
 
 }
