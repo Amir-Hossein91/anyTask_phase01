@@ -19,4 +19,6 @@ public class Constants {
     public static final String COULD_NOT_SAVE_THE_TECHNICIAN_LIST = "Could not save the list of technicians";
     public static final String NO_UNAPPROVED_TECHNICIANS = "There is no unapproved technician";
     public static final String NO_DEACTIVATED_TECHNICIANS = "There is no deactivated technician";
+    public static final String INVALID_SUGGESTED_PRICE = "Customer suggested price can not be less than base price";
+    public static final String DATE_BEFORE_NOW = "Customer desired date/time can not be before current date/time";
 }
