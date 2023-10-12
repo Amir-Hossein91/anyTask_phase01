@@ -39,9 +39,6 @@ public class Person extends BaseEntity {
             "8 characters containing digits and letters")
     private String password;
     private LocalDate registrationDate;
-    private boolean isManager;
-    private boolean isCustomer;
-    private boolean isTechnician;
 
     public String toString() {
         return  "firstName = " + this.getFirstName() +

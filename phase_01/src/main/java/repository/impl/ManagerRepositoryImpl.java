@@ -15,7 +15,7 @@ public class ManagerRepositoryImpl extends BaseRepositoryImpl<Manager> implement
 
     @Override
     public boolean doesManaderExist() {
-        String queryLine = "from Person where isManager = true ";
+        String queryLine = "from Manager";
         Query query = entityManager.createQuery(queryLine);
         return !query.getResultList().isEmpty();
     }

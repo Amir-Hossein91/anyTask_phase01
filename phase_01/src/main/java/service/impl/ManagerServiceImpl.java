@@ -27,7 +27,7 @@ public class ManagerServiceImpl extends BaseServiceImpl<ManagerRepositoryImpl, M
             String password = input.nextLine();
             LocalDate registrationDate = LocalDate.now();
             return Manager.builder().firstName(firstname).lastName(lastname).email(email).username(username)
-                    .password(password).registrationDate(registrationDate).isManager(true).build();
+                    .password(password).registrationDate(registrationDate).build();
         }
         return null;
     }

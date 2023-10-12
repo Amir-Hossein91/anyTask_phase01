@@ -50,7 +50,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerRepositoryImpl,
         long credit = input.nextLong();
         input.nextLine();
         return Customer.builder().firstName(firstname).lastName(lastname).email(email).username(username)
-                .password(password).registrationDate(registrationDate).credit(credit).isCustomer(true).build();
+                .password(password).registrationDate(registrationDate).credit(credit).build();
     }
 
     private boolean isSuggestionChoosingPossible(Person person, Order order){
