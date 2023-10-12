@@ -26,6 +26,8 @@ public class Main {
     public static TechnicianServiceImpl technicianService = ApplicationContext.technicianService;
 
     public static void main(String[] args) {
+
+////////////////////////////////////////////////////////////GENERAL:
         //1) register
 //        personService.register();
 
@@ -35,29 +37,64 @@ public class Main {
         //3) change password
 //        personService.changePassword("amir00","amir123456789","amir1234");
 
-        //4) Manager can add assistance category
+        //4) Everyone can see the list of assistance(Technicians must be active)
+//        printer.printListWithoutSelect(assistanceService.seeAssistances("akbar"));
+
+////////////////////////////////////////////////////////////MANAGER:
+
+        //5) Manager can add assistance category
 //        assistanceService.addAssistance("amir","Cleaning and hygiene");
 
-        //5) Manager can add sub-assistance title
+        //6) Manager can add sub-assistance title
 //        subAssistanceService.addSubAssistance("amir","Cleaning and hygiene","spraying");
 
-        //6) Manager add a technician to a subAssistance
-//        technicianService.addTechnicianToSubAssistance("amir","ali","Kitchen appliances","Home Appliances");
+        //7) Manager add a technician to a subAssistance
+//        technicianService.addTechnicianToSubAssistance("amir","akbar","spraying","Cleaning and hygiene");
 
-        //7) Manager remove a technician from a subAssistance
+        //8) Manager remove a technician from a subAssistance
 //        technicianService.removeTechnicianFromSubAssistance("amir","ali","checkup","car maintenance");
 
-        //8) Everyone can see the list of assistance
-//        printer.printListWithoutSelect(assistanceService.findAll().stream().map(Object::toString).toList());
-
-        //9) Manager can see the list of sub-assistance and their technicians
-//        printer.printListWithoutSelect(subAssistanceService.seeSubAssistances("amir"));
+        //9) Manager can see the list of sub-assistance and their technicians and other details
+//        printer.printListWithoutSelect(subAssistanceService.seeSubAssistances("omid"));
 
         //10) Manager can change the description of a sub-assistance
 //        subAssistanceService.changeDescription("amir","Home Appliances","audiovisual equipment","description changed by manager");
 
         //11) Manager can change the base price of a sub-assistance
 //        subAssistanceService.changeBasePrice("amir","Home Appliances","audiovisual equipment",4000000);
+
+        //12) Manager can see the unapproved technicians and they'll become "PEDNING"
+//        List<String> technicians = technicianService.seeUnapprovedTechnicians("amir");
+//        if(technicians != null){
+//            for(String s: technicians)
+//                System.out.println(s);
+//        }
+
+        //13) Manager can see the list of technicians who are approved but deactivated
+//        List<String> technicians = technicianService.seeDeactivatedTechnicians("amir");
+//        if(technicians != null){
+//            for(String s: technicians)
+//                System.out.println(s);
+//        }
+
+
+////////////////////////////////////////////////////////////CUSTOMER:
+
+        //14) Customer can see the list of sub-assistances
+//        printer.printResult("All services",subAssistanceService.showSubAssistances("amir"));
+
+        //15) Customer makes an order
+//        orderService.makeOrder("alireza","Cleaning and hygiene","spraying");
+
+
+////////////////////////////////////////////////////////////TECHNICIAN:
+
+        //16) Technician can see list of related orders which are in waiting condition (if profile is active)
+//        printer.printListWithoutSelect(technicianService.findRelativeOrders("akbar"));
+
+        //17) Technician can make a suggestion to an order related to him (if profile is active)
+        technicianService.sendTechnicianSuggestion("akbar",802);
+
     }
 
 
