@@ -142,7 +142,7 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
             );
             if(!orders.contains(order))
                 throw new NotFoundException(Constants.ORDER_IS_NOT_RELATED);
-            TechnicianSuggestion technicianSuggestion = createTechnicianSuggestion(order);
+            TechnicianSuggestion technicianSuggestion = createTechnicianSuggestion(technician,order);
             if(technicianSuggestion != null){
                 order.getTechnicianSuggestions().add(technicianSuggestion);
                 saveOrUpdate(order);
@@ -152,7 +152,7 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
         }
     }
 
-    private TechnicianSuggestion createTechnicianSuggestion(Order order){
+    private TechnicianSuggestion createTechnicianSuggestion(Technician technician,Order order){
         LocalDateTime customerDesiredDate = order.getOrderDescription().getCustomerDesiredDateAndTime();
         long basePrice = order.getSubAssistance().getBasePrice();
         TechnicianSuggestion technicianSuggestion = null;
@@ -183,7 +183,7 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
 
                 technicianSuggestion = TechnicianSuggestion.builder().order(order)
                         .DateAndTimeOfTechSuggestion(LocalDateTime.now()).techSuggestedPrice(suggestedPrice)
-                        .techSuggestedDate(dateTime).taskEstimatedDuration(taskDuration).build();
+                        .techSuggestedDate(dateTime).taskEstimatedDuration(taskDuration).technician(technician).build();
 
             } catch (DateTimeException | IllegalArgumentException e){
                 printer.printError(e.getMessage());
