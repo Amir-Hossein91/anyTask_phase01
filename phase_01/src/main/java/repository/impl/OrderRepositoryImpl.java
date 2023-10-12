@@ -24,7 +24,8 @@ public class OrderRepositoryImpl extends BaseRepositoryImpl<Order> implements Or
                                 join b.orders c 
                                 where a=:i 
                                 and b = c.subAssistance
-                                and c.orderStatus = 'WAITING_FOR_TECHNICIANS_SUGGESTIONS'
+                                and (c.orderStatus = 'WAITING_FOR_TECHNICIANS_SUGGESTIONS'
+                                or c.orderStatus = 'CHOOSING_TECHNICIAN')
                                 """;
         Query query = entityManager.createQuery(queryLine);
         query.setParameter("i",technician);
