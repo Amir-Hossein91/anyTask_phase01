@@ -21,4 +21,5 @@ public class Constants {
     public static final String NO_DEACTIVATED_TECHNICIANS = "There is no deactivated technician";
     public static final String INVALID_SUGGESTED_PRICE = "Customer suggested price can not be less than base price";
     public static final String DATE_BEFORE_NOW = "Customer desired date/time can not be before current date/time";
+    public static final String NO_RELATED_ORDERS = "There are no related orders related to this technician";
 }
