@@ -11,12 +11,9 @@ import exceptions.NotFoundException;
 import repository.impl.AssistanceRepositoryImpl;
 import repository.impl.PersonRepositoryImpl;
 import service.AssistanceService;
-import utility.ApplicationContext;
 import utility.Constants;
 
-import javax.validation.constraints.Null;
 import java.util.List;
-import java.util.Optional;
 
 public class AssistanceServiceImpl extends BaseServiceImpl<AssistanceRepositoryImpl, Assistance> implements AssistanceService {
 

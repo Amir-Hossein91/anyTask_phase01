@@ -2,9 +2,6 @@ package service.impl;
 
 import basics.baseService.impl.BaseServiceImpl;
 import entity.*;
-import exceptions.DuplicateAssistanceException;
-import exceptions.DuplicateSubAssistanceException;
-import exceptions.NoSuchAsssistanceCategoryException;
 import exceptions.NotFoundException;
 import repository.impl.PersonRepositoryImpl;
 import repository.impl.SubAssistanceRepositoryImpl;
@@ -14,7 +11,7 @@ import utility.ApplicationContext;
 import utility.Constants;
 
 import java.nio.file.Path;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PersonServiceImple extends BaseServiceImpl<PersonRepositoryImpl, Person> implements PersonService {
@@ -48,7 +45,7 @@ public class PersonServiceImple extends BaseServiceImpl<PersonRepositoryImpl, Pe
         String username = input.nextLine();
         printer.getInput("password");
         String password = input.nextLine();
-        LocalDate registrationDate = LocalDate.now();
+        LocalDateTime registrationDate = LocalDateTime.now();
         return Person.builder().firstName(firstname).lastName(lastname).email(email).username(username)
                 .password(password).registrationDate(registrationDate).build();
     }

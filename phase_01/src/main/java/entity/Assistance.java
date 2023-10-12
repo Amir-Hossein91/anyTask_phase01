@@ -5,9 +5,11 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@SequenceGenerator(name = "id_generator", sequenceName = "assistance_sequence")
 @Getter
 @Setter
 @SuperBuilder

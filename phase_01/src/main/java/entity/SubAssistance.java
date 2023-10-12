@@ -4,17 +4,13 @@ import entity.base.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Range;
-import utility.ApplicationContext;
-import utility.Printer;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@SequenceGenerator(name = "id_generator", sequenceName = "sub_assistance_sequence")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,6 +21,7 @@ public class SubAssistance extends BaseEntity {
     @NotNull(message = "Sub-assistance title can not be null")
     private String title;
     @Range(min = 0, message = "Base price can not be negative")
+    @Column(name = "base_Price")
     private long basePrice;
     @ManyToMany
     private List<Technician> technicians;
@@ -36,10 +33,9 @@ public class SubAssistance extends BaseEntity {
     private String about;
 
     public String toString() {
-        return "title = " + this.getTitle() +
-                "\n\tassistance category = " + this.getAssistance() +
-                "\n\tbasePrice = " + this.getBasePrice() +
-                "\n\ttechnicians = " + this.getTechnicians() +
-                "\n\tabout = " + this.getAbout();
+        return "\n\t\ttitle = " + this.getTitle() +
+                "\n\t\tassistance_category = " + this.getAssistance() +
+                "\n\t\tbase_Price = " + this.getBasePrice() +
+                "\n\t\tabout = " + this.getAbout() + "\n";
     }
 }

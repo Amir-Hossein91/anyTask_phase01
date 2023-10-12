@@ -12,7 +12,7 @@ import repository.impl.PersonRepositoryImpl;
 import repository.impl.TechnicianSuggestionRepositoryImpl;
 import utility.Constants;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class CustomerServiceImpl extends BaseServiceImpl<CustomerRepositoryImpl, Customer> {
@@ -45,12 +45,34 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerRepositoryImpl,
         String username = input.nextLine();
         printer.getInput("password");
         String password = input.nextLine();
-        LocalDate registrationDate = LocalDate.now();
+        LocalDateTime registrationDate = LocalDateTime.now();
         printer.getInput("initial credit");
         long credit = input.nextLong();
         input.nextLine();
         return Customer.builder().firstName(firstname).lastName(lastname).email(email).username(username)
                 .password(password).registrationDate(registrationDate).credit(credit).build();
+    }
+
+    public List<String> showAllCustomers(String managerUsername){
+        Person person = personService.findByUsername(managerUsername);
+        if(person instanceof Manager){
+            return findAll().stream().map(Object::toString).toList();
+        }
+        else{
+            printer.printError("Only manager can see the list of all customers");
+            return List.of();
+        }
+    }
+
+    public List<String> seeOrdersOf (String customerUsername){
+        Person person = personService.findByUsername(customerUsername);
+        if(person instanceof Customer customer){
+            return orderService.findByCustomer(customer).stream().map(Object::toString).toList();
+        }
+        else {
+            printer.printError("this function is only available for 'customers'");
+            return List.of();
+        }
     }
 
     private boolean isSuggestionChoosingPossible(Person person, Order order){
@@ -157,7 +179,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<CustomerRepositoryImpl,
                 }
                 customer.setCredit(customer.getCredit() - selecteSuggestion.getTechSuggestedPrice());
                 if(customer.getCredit() < 0)
-                    throw new NotEnoughCreditException(Constants.NOT_ENOUGHT_CREDIT);
+                    throw new NotEnoughCreditException(Constants.NOT_ENOUGH_CREDIT);
 
                 selectedTechnician.setCredit(selectedTechnician.getCredit() + selecteSuggestion.getTechSuggestedPrice());
                 selectedTechnician.setNumberOfFinishedTasks(selectedTechnician.getNumberOfFinishedTasks() + 1);

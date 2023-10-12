@@ -5,7 +5,7 @@ import entity.Manager;
 import repository.impl.ManagerRepositoryImpl;
 import service.ManagerService;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ManagerServiceImpl extends BaseServiceImpl<ManagerRepositoryImpl, Manager> implements ManagerService {
 
@@ -25,7 +25,7 @@ public class ManagerServiceImpl extends BaseServiceImpl<ManagerRepositoryImpl, M
             String username = input.nextLine();
             printer.getInput("password");
             String password = input.nextLine();
-            LocalDate registrationDate = LocalDate.now();
+            LocalDateTime registrationDate = LocalDateTime.now();
             return Manager.builder().firstName(firstname).lastName(lastname).email(email).username(username)
                     .password(password).registrationDate(registrationDate).build();
         }
@@ -33,6 +33,6 @@ public class ManagerServiceImpl extends BaseServiceImpl<ManagerRepositoryImpl, M
     }
 
     public boolean doesManagerExist(){
-        return repository.doesManaderExist();
+        return repository.doesManagerExist();
     }
 }

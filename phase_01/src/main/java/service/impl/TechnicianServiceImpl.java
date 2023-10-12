@@ -12,7 +12,7 @@ import utility.Constants;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
         String username = input.nextLine();
         printer.getInput("password");
         String password = input.nextLine();
-        LocalDate registrationDate = LocalDate.now();
+        LocalDateTime registrationDate = LocalDateTime.now();
         try {
             byte[] image = Files.readAllBytes(path);
             return Technician.builder().firstName(firstname).lastName(lastname).email(email).username(username)
@@ -53,7 +53,6 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
             printer.printError(e.getMessage());
             return null;
         }
-
     }
 
     public boolean validateImage(Path path){
@@ -93,7 +92,7 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
                 SubAssistance subAssistance = subAssistanceService.findSubAssistance(subassistanceTitle,assistance);
 
                 if(!(technician instanceof Technician) || subAssistance == null)
-                    throw new NotFoundException(Constants.TECHINICIAN_OR_SUBASSISTANCE_NOT_FOUND);
+                    throw new NotFoundException(Constants.TECHNICIAN_OR_SUBASSISTANCE_NOT_FOUND);
 
                 if(!((Technician) technician).isActive() && ((Technician) technician).getTechnicianStatus()==TechnicianStatus.APPROVED)
                     throw new DeactivatedTechnicianException(Constants.DEACTIVATED_TECHNICIAN);
@@ -129,7 +128,7 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
                 SubAssistance subAssistance = subAssistanceService.findSubAssistance(subassistanceTitle,assistance);
 
                 if(!(technician instanceof Technician) || subAssistance == null)
-                    throw new NotFoundException(Constants.TECHINICIAN_OR_SUBASSISTANCE_NOT_FOUND);
+                    throw new NotFoundException(Constants.TECHNICIAN_OR_SUBASSISTANCE_NOT_FOUND);
 
                 List<Technician> technicians = subAssistance.getTechnicians();
                 if(!technicians.contains(technician))
@@ -173,15 +172,16 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
         }
     }
 
-    public List<Technician> findUnapproved(){
-        return repository.findUnapproved().orElse(null);
+    public List<String> showAllTechnicians(String managerUsername){
+        Person person = personService.findByUsername(managerUsername);
+        if(person instanceof Manager){
+            return findAll().stream().map(Object::toString).toList();
+        }
+        else{
+            printer.printError("Only manager can see the list of all technicians");
+            return List.of();
+        }
     }
-
-    @Override
-    public List<Technician> findDeactivated() {
-        return repository.findDeactivated().orElse(null);
-    }
-
 
     public List<String> seeUnapprovedTechnicians(String managerUsername){
 
@@ -192,9 +192,15 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
                 if(technicians == null || technicians.isEmpty())
                     throw new NotFoundException(Constants.NO_UNAPPROVED_TECHNICIANS);
                 List<String> result = technicians.stream().map(Object::toString).toList();
-                for(Technician t : technicians)
-                    t.setTechnicianStatus(TechnicianStatus.PENDING);
-                saveOrUpdate(technicians);
+                boolean isListChanged = false;
+                for(Technician t : technicians){
+                    if(t.getTechnicianStatus()==TechnicianStatus.NEW){
+                        t.setTechnicianStatus(TechnicianStatus.PENDING);
+                        isListChanged = true;
+                    }
+                }
+                if(isListChanged)
+                    saveOrUpdate(technicians);
                 return result;
             } catch (NotFoundException e){
                 printer.printError(e.getMessage());

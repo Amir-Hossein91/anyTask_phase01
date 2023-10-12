@@ -6,14 +6,12 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.validation.constraints.Digits;
 
 @Entity
 @DiscriminatorValue("Customer")
 
 @Getter
 @Setter
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
@@ -21,4 +19,9 @@ import javax.validation.constraints.Digits;
 public class Customer extends Person {
     @Range(min = 0, message = "Credit can not be negative")
     private long credit;
+
+    public String toString() {
+        return super.toString() +
+                "\n\tcredit=" + this.getCredit();
+    }
 }

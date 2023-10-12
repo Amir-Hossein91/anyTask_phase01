@@ -1,6 +1,5 @@
 package entity.dto;
 
-import entity.Customer;
 import entity.OrderDescription;
 import lombok.Builder;
 

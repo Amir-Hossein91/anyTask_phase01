@@ -1,12 +1,15 @@
 package service.impl;
 
 import basics.baseService.impl.BaseServiceImpl;
+import entity.Manager;
 import entity.Order;
+import entity.Person;
 import entity.TechnicianSuggestion;
 import entity.dto.TechnicianSuggestionDTO;
 import exceptions.NotFoundException;
 import repository.impl.TechnicianSuggestionRepositoryImpl;
 import service.TechnicianSuggestionService;
+import utility.ApplicationContext;
 import utility.Constants;
 
 import java.time.LocalDateTime;
@@ -17,8 +20,22 @@ public class TechnicianSuggestionServiceImpl extends
         BaseServiceImpl<TechnicianSuggestionRepositoryImpl, TechnicianSuggestion> implements
         TechnicianSuggestionService {
 
+    private PersonServiceImple personService;
+
     public TechnicianSuggestionServiceImpl(TechnicianSuggestionRepositoryImpl repository) {
         super(repository);
+        personService = ApplicationContext.personService;
+    }
+
+    public List<String> showAllSuggestions(String managerUsername){
+        Person person = personService.findByUsername(managerUsername);
+        if(person instanceof Manager){
+            return findAll().stream().map(Object::toString).toList();
+        }
+        else{
+            printer.printError("Only manager can see the list of all technician suggestion");
+            return List.of();
+        }
     }
 
     @Override

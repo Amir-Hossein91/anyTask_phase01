@@ -7,7 +7,7 @@ import exceptions.DuplicateSubAssistanceException;
 import exceptions.NoSuchAsssistanceCategoryException;
 import exceptions.NotFoundException;
 import repository.impl.SubAssistanceRepositoryImpl;
-import service.SubAsssistanceService;
+import service.SubAssistanceService;
 import utility.ApplicationContext;
 import utility.Constants;
 
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SubAssistanceServiceImpl extends BaseServiceImpl<SubAssistanceRepositoryImpl, SubAssistance> implements SubAsssistanceService {
+public class SubAssistanceServiceImpl extends BaseServiceImpl<SubAssistanceRepositoryImpl, SubAssistance> implements SubAssistanceService {
 
     private PersonServiceImple personService;
     private AssistanceServiceImpl assistanceService;
@@ -59,8 +59,8 @@ public class SubAssistanceServiceImpl extends BaseServiceImpl<SubAssistanceRepos
             printer.printError(("Only manager can add sub-assistance titles"));
     }
 
-    public List<String> showSubAssistances(String managerName){
-        Person person = personService.findByUsername(managerName);
+    public List<String> showSubAssistances(String userName){
+        Person person = personService.findByUsername(userName);
         if(person instanceof Manager){
             return findAll().stream().map(Object::toString).toList();
         }

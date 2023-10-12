@@ -4,7 +4,6 @@ import basics.baseRepository.BaseRepository;
 import connection.Connection;
 import entity.base.BaseEntity;
 import lombok.Getter;
-import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
 import java.util.List;

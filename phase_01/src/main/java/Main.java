@@ -24,6 +24,7 @@ public class Main {
     public static PersonServiceImple personService = ApplicationContext.personService;
     public static SubAssistanceServiceImpl subAssistanceService = ApplicationContext.subAssistanceService;
     public static TechnicianServiceImpl technicianService = ApplicationContext.technicianService;
+    public static TechnicianSuggestionServiceImpl technicianSuggestionService = ApplicationContext.technicianSuggestionService;
 
     public static void main(String[] args) {
 
@@ -43,19 +44,19 @@ public class Main {
 ////////////////////////////////////////////////////////////MANAGER:
 
         //5) Manager can add assistance category
-//        assistanceService.addAssistance("amir","Cleaning and hygiene");
+//        assistanceService.addAssistance("amir","cleaning and hygiene");
 
         //6) Manager can add sub-assistance title
-//        subAssistanceService.addSubAssistance("amir","Cleaning and hygiene","spraying");
+//        subAssistanceService.addSubAssistance("amir","cleaning and hygiene","spraying");
 
         //7) Manager add a technician to a subAssistance
-//        technicianService.addTechnicianToSubAssistance("amir","akbar","spraying","Cleaning and hygiene");
+//        technicianService.addTechnicianToSubAssistance("amir","akbar","spraying","cleaning and hygiene");
 
         //8) Manager remove a technician from a subAssistance
 //        technicianService.removeTechnicianFromSubAssistance("amir","ali","checkup","car maintenance");
 
         //9) Manager can see the list of sub-assistance and their technicians and other details
-//        printer.printListWithoutSelect(subAssistanceService.seeSubAssistances("omid"));
+//        printer.printListWithoutSelect(subAssistanceService.showSubAssistances("amir"));
 
         //10) Manager can change the description of a sub-assistance
 //        subAssistanceService.changeDescription("amir","Home Appliances","audiovisual equipment","description changed by manager");
@@ -77,14 +78,41 @@ public class Main {
 //                System.out.println(s);
 //        }
 
+        //??) Manager can see the list of all technicians and statistics
+//        printer.printListWithoutSelect(technicianService.showAllTechnicians("amir"));
+
+        //??) Manager can see the list of all customers and statistics
+//        printer.printListWithoutSelect(customerService.showAllCustomers("amir"));
+
+        //??) Manager can see the list of all orders and statistics
+//        printer.printListWithoutSelect(orderService.showAllOrders("amir"));
+
+        //??) Manager can see the list of all technician suggestions
+//        printer.printListWithoutSelect(technicianSuggestionService.showAllSuggestions("amir"));
+
 
 ////////////////////////////////////////////////////////////CUSTOMER:
 
         //14) Customer can see the list of sub-assistances
-//        printer.printResult("All services",subAssistanceService.showSubAssistances("amir"));
+//        printer.printResult("All services",subAssistanceService.showSubAssistances("alireza"));
 
         //15) Customer makes an order
-//        orderService.makeOrder("alireza","Cleaning and hygiene","spraying");
+//        orderService.makeOrder("alireza","cleaning and hygiene","spraying");
+
+        //??) Customer can see the list of his orders and their status
+//        printer.printListWithoutSelect(customerService.seeOrdersOf("alireza"));
+
+        //18) Customer can see the list of technician suggestions of his order (order --> "CHOOSING_TECHNICIAN")
+//        printer.printListWithoutSelect(customerService.seeTechnicianSuggestions("alireza",2));
+
+        //19) Customer can choose a technicianSuggestion (in this project phase order --> "STARTED")
+//        customerService.chooseSuggestion("alireza",2,1);
+
+        //20) Customer can pay the technician (order --> "FINISHED")
+//        customerService.payThePrice("alireza",2);
+
+        //21) Customer can score the technician and write opinion
+//        customerService.scoreTheTechnician("alireza",2);
 
 
 ////////////////////////////////////////////////////////////TECHNICIAN:
@@ -93,7 +121,7 @@ public class Main {
 //        printer.printListWithoutSelect(technicianService.findRelativeOrders("akbar"));
 
         //17) Technician can make a suggestion to an order related to him (if profile is active)
-        technicianService.sendTechnicianSuggestion("akbar",802);
+//        technicianService.sendTechnicianSuggestion("akbar",2);
 
     }
 

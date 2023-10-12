@@ -1,11 +1,9 @@
 package repository.impl;
 
 import basics.baseRepository.impl.BaseRepositoryImpl;
-import entity.SubAssistance;
 import entity.Technician;
 import exceptions.NotSavedException;
 import repository.TechnicianRepository;
-import service.TechnicianService;
 import utility.Constants;
 
 import javax.persistence.NoResultException;

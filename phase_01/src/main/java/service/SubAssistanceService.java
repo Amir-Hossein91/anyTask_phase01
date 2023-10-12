@@ -3,6 +3,6 @@ package service;
 import entity.Assistance;
 import entity.SubAssistance;
 
-public interface SubAsssistanceService {
+public interface SubAssistanceService {
     SubAssistance findSubAssistance(String title, Assistance assistance);
 }

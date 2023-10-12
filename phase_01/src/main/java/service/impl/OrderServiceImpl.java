@@ -36,6 +36,17 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
 //        subAssistanceService = ApplicationContext.subAssistanceService;
     }
 
+    public List<String> showAllOrders(String managerUsername){
+        Person person = personService.findByUsername(managerUsername);
+        if(person instanceof Manager){
+            return findAll().stream().map(Object::toString).toList();
+        }
+        else{
+            printer.printError("Only manager can see the list of all orders");
+            return List.of();
+        }
+    }
+
     public void makeOrder(String customerUsername, String assistanceTitle, String subAssistanceTitle){
         Person person = personService.findByUsername(customerUsername);
         if( person instanceof Customer){
@@ -151,6 +162,20 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
             }
         } catch (NotFoundException e){
             printer.printError(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Order> findByCustomer(Customer customer) {
+        try{
+            List<Order> fetchedOrders = repository.findByCustomer(customer).orElseThrow(
+                    () -> new NotFoundException(Constants.NO_ORDERS_FOR_CUSTOMER)
+            );
+            return fetchedOrders;
+
+        } catch (NotFoundException e){
+            printer.printError(e.getMessage());
+            return List.of();
         }
     }
 

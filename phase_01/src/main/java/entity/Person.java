@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @SequenceGenerator(name = "id_generator", sequenceName = "person_sequence")
@@ -24,9 +24,11 @@ import java.time.LocalDate;
 public class Person extends BaseEntity {
     @Pattern(regexp = "^[^\\d]{3,}$", message = "first name should be at least three characters and " +
             "no digits are allowed")
+    @Column(name = "first_name")
     private String firstName;
     @Pattern(regexp = "^[^\\d]{3,}$", message = "last name should be at least three characters and " +
             "no digits are allowed")
+    @Column(name = "last_name")
     private String lastName;
     @Column(unique = true)
     @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Invalid email address format")
@@ -38,14 +40,15 @@ public class Person extends BaseEntity {
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{8}$", message = "Password must be exactly " +
             "8 characters containing digits and letters")
     private String password;
-    private LocalDate registrationDate;
+    @Column(name = "registration_date")
+    private LocalDateTime registrationDate;
 
     public String toString() {
-        return  "firstName = " + this.getFirstName() +
-                ", lastName = " + this.getLastName() +
-                ", " + super.toString() +
-                ", email = " + this.getEmail() +
-                ", username = " + this.getUsername() +
-                ", registrationDate = " + this.getRegistrationDate();
+        return  "\tfirstName = " + this.getFirstName() +
+                "\n\tlastName = " + this.getLastName() +
+                "\n\t" + super.toString() +
+                "\n\temail = " + this.getEmail() +
+                "\n\tusername = " + this.getUsername() +
+                "\n\tregistrationDate = " + this.getRegistrationDate();
     }
 }
