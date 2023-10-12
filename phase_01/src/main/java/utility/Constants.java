@@ -25,4 +25,7 @@ public class Constants {
     public static final String NO_RELATED_ORDERS = "There are no related orders related to this technician";
     public static final String ORDER_IS_NOT_RELATED = "This order is not related to this technician";
     public static final String NO_SUCH_ORDER = "No order exists with this id";
+    public static final String ORDER_NOT_BELONG_TO_CUSTOMER = "This order does not belong to this customer";
+    public static final String NO_TECHNICIAN_SUGGESTION_FOUND = "This order does not have any technician suggestions yet";
+    public static final String SUGGESTION_NOT_AVAILABLE_IN_THIS_STATUS = "Suggestions are not available in this order status";
 }
