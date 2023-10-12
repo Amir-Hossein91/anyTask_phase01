@@ -21,12 +21,14 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
     private final PersonServiceImple personService;
     private final SubAssistanceServiceImpl subAssistanceService;
     private final AssistanceServiceImpl assistanceService;
+    private final OrderServiceImpl orderService;
 
     public TechnicianServiceImpl(TechnicianRepositoryImpl repository) {
         super(repository);
         personService = ApplicationContext.personService;
         subAssistanceService = ApplicationContext.subAssistanceService;
         assistanceService = ApplicationContext.assistanceService;
+        orderService = ApplicationContext.orderService;
     }
 
     public Technician specifyTechnician(Path path){
@@ -224,6 +226,47 @@ public class TechnicianServiceImpl extends BaseServiceImpl<TechnicianRepositoryI
         else {
             printer.printError(("Only manager can see deactivated technicians"));
             return null;
+        }
+    }
+
+    public List<String> findRelativeOrders(String technicianUsername){
+        Person person = personService.findByUsername(technicianUsername);
+        if(person instanceof Technician){
+            try{
+                if(!((Technician) person).isActive())
+                    throw new DeactivatedTechnicianException(Constants.DEACTIVATED_TECHNICIAN);
+
+               return orderService.findRelatedOrders((Technician) person).stream().map(Object::toString).toList();
+            } catch (DeactivatedTechnicianException e) {
+                printer.printError(e.getMessage());
+                return List.of();
+            }
+        }
+        else {
+            printer.printError(("Only technicians can see their relative orders"));
+            return List.of();
+        }
+    }
+
+    public void sendTechnicianSuggestion (String technicianUsername, long orderId){
+        Person person = personService.findByUsername(technicianUsername);
+        if(person instanceof Technician){
+            try{
+                if(!((Technician) person).isActive())
+                    throw new DeactivatedTechnicianException(Constants.DEACTIVATED_TECHNICIAN);
+
+                Order order = orderService.findById(orderId);
+                if(order == null)
+                    throw new NotFoundException(Constants.NO_SUCH_ORDER);
+
+                orderService.sendTechnicianSuggestion((Technician) person,order);
+
+            } catch (DeactivatedTechnicianException | NotFoundException e) {
+                printer.printError(e.getMessage());
+            }
+        }
+        else {
+            printer.printError(("Only technicians can send suggestions to an order"));
         }
     }
 }

@@ -68,24 +68,24 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
         OrderDescription orderDescription = null;
         while(orderDescription == null){
             try{
-                printer.getInput("suggested price");
+                printer.getInput("Suggested price");
                 long suggestedPrice = input.nextLong();
                 input.nextLine();
                 if(suggestedPrice < basePrice)
                     throw new IllegalArgumentException(Constants.INVALID_SUGGESTED_PRICE);
-                printer.getInput("desired year");
+                printer.getInput("Desired year");
                 int year = input.nextInt();
                 input.nextLine();
-                printer.getInput("desired month");
+                printer.getInput("Desired month");
                 int month = input.nextInt();
                 input.nextLine();
-                printer.getInput("desired day");
+                printer.getInput("Desired day");
                 int day = input.nextInt();
                 input.nextLine();
-                printer.getInput("desired hour");
+                printer.getInput("Desired hour");
                 int hour = input.nextInt();
                 input.nextLine();
-                printer.getInput("desired minute");
+                printer.getInput("Desired minute");
                 int minute = input.nextInt();
                 input.nextLine();
                 PersianDate persionDate = PersianDate.of(year,month,day);
@@ -93,9 +93,9 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
                 LocalDateTime dateTime = gregorianDate.atTime(hour,minute);
                 if(dateTime.isBefore(LocalDateTime.now()))
                     throw new DateTimeException(Constants.DATE_BEFORE_NOW);
-                printer.getInput("task details");
+                printer.getInput("Task details");
                 String details = input.nextLine();
-                printer.getInput("address");
+                printer.getInput("Address");
                 String address = input.nextLine();
                 orderDescription = OrderDescription.builder().customerSuggestedPrice(suggestedPrice)
                         .customerDesiredDateAndTime(dateTime).taskDetails(details).address(address).build();
@@ -132,5 +132,63 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
             return List.of();
         }
 
+    }
+
+    @Override
+    public void sendTechnicianSuggestion(Technician technician, Order order) {
+        try{
+            List<Order> orders = repository.findRelatedOrders(technician).orElseThrow(
+                    () -> new NotFoundException(Constants.NO_RELATED_ORDERS)
+            );
+            if(!orders.contains(order))
+                throw new NotFoundException(Constants.ORDER_IS_NOT_RELATED);
+            TechnicianSuggestion technicianSuggestion = createTechnicianSuggestion(order);
+            if(technicianSuggestion != null){
+                order.getTechnicianSuggestions().add(technicianSuggestion);
+                saveOrUpdate(order);
+            }
+        } catch (NotFoundException e){
+            printer.printError(e.getMessage());
+        }
+    }
+
+    private TechnicianSuggestion createTechnicianSuggestion(Order order){
+        LocalDateTime customerDesiredDate = order.getOrderDescription().getCustomerDesiredDateAndTime();
+        long basePrice = order.getSubAssistance().getBasePrice();
+        TechnicianSuggestion technicianSuggestion = null;
+        while (technicianSuggestion == null){
+            try{
+                printer.getInput("Suggested price");
+                long suggestedPrice = input.nextLong();
+                if(suggestedPrice < basePrice)
+                    throw new IllegalArgumentException(Constants.INVALID_SUGGESTED_PRICE);
+                printer.getInput("Suggested year");
+                int year = input.nextInt();
+                printer.getInput("Suggested month");
+                int month = input.nextInt();
+                printer.getInput("Suggested day");
+                int day = input.nextInt();
+                printer.getInput("Suggested hour");
+                int hour = input.nextInt();
+                printer.getInput("Suggested minute");
+                int minute = input.nextInt();
+                PersianDate persionDate = PersianDate.of(year,month,day);
+                LocalDate gregorianDate = persionDate.toGregorian();
+                LocalDateTime dateTime = gregorianDate.atTime(hour,minute);
+                if(dateTime.isBefore(customerDesiredDate))
+                    throw new DateTimeException(Constants.DATE_BEFORE_CUSTOMER_DESIRED);
+                printer.getInput("Estimated task duration (hours)");
+                int taskDuration = input.nextInt();
+                input.nextLine();
+
+                technicianSuggestion = TechnicianSuggestion.builder().order(order)
+                        .DateAndTimeOfTechSuggestion(LocalDateTime.now()).techSuggestedPrice(suggestedPrice)
+                        .techSuggestedDate(dateTime).taskEstimatedDuration(taskDuration).build();
+
+            } catch (DateTimeException | IllegalArgumentException e){
+                printer.printError(e.getMessage());
+            }
+        }
+        return technicianSuggestion;
     }
 }
