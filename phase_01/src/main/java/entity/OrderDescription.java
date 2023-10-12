@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,4 +25,12 @@ public class OrderDescription extends BaseEntity {
     private String taskDetails;
     @NotNull(message = "Address can not be null")
     private String address;
+
+    public String toString() {
+        return "\n\t\t" + super.toString() +
+                "\n\t\tcustomer_Suggested_Price = " + this.getCustomerSuggestedPrice() +
+                "\n\t\tcustomer_Desired_Date_And_Time = " + this.getCustomerDesiredDateAndTime() +
+                "\n\t\ttask_Details = " + this.getTaskDetails() +
+                "\n\t\taddress = " + this.getAddress();
+    }
 }
