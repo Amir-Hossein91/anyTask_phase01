@@ -3,19 +3,23 @@ package service.impl;
 import basics.baseService.impl.BaseServiceImpl;
 import com.github.mfathi91.time.PersianDate;
 import entity.*;
+import entity.dto.OrderDTO;
 import entity.enums.OrderStatus;
 import exceptions.NotFoundException;
 import repository.impl.OrderRepositoryImpl;
 import repository.impl.PersonRepositoryImpl;
 import repository.impl.SubAssistanceRepositoryImpl;
+import service.OrderService;
 import utility.ApplicationContext;
 import utility.Constants;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order> {
+public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order> implements OrderService {
 
     private final PersonServiceImple personService;
     private final AssistanceServiceImpl assistanceService;
@@ -100,5 +104,33 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
             }
         }
         return orderDescription;
+    }
+
+    public List<OrderDTO> findRelatedOrders(Technician technician){
+        try{
+            List<Order> fetchedOrders = repository.findRelatedOrders(technician).orElseThrow(
+                    () -> new NotFoundException(Constants.NO_RELATED_ORDERS)
+            );
+            List<OrderDTO> orderDTOs = new ArrayList<>();
+            for(Order o : fetchedOrders){
+                OrderDTO orderDTO = OrderDTO.builder()
+                        .orderId(o.getId())
+                        .subAssistanceTitle(o.getSubAssistance().getTitle())
+                        .assistanceTitle(o.getSubAssistance().getAssistance().getTitle())
+                        .basePrice(o.getSubAssistance().getBasePrice())
+                        .customerFirstname(o.getCustomer().getFirstName())
+                        .customerLastname(o.getCustomer().getLastName())
+                        .customerId(o.getCustomer().getId())
+                        .orderDate(o.getOrderRegistrationDateAndTime())
+                        .orderDescription(o.getOrderDescription()).build();
+                orderDTOs.add(orderDTO);
+            }
+            return orderDTOs;
+
+        } catch (NotFoundException e){
+            printer.printError(e.getMessage());
+            return List.of();
+        }
+
     }
 }
