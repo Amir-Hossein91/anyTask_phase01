@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,4 +30,12 @@ public class TechnicianSuggestion extends BaseEntity {
     private LocalDateTime techSuggestedDate;
     @Range(min = 0, message = "Task duration can not be negative")
     private int taskEstimatedDuration;
+
+    public String toString() {
+        return "TechnicianSuggestion(technician=" + this.getTechnician() +
+                ", DateAndTimeOfTechSuggestion=" + this.getDateAndTimeOfTechSuggestion() +
+                ", techSuggestedPrice=" + this.getTechSuggestedPrice() +
+                ", techSuggestedDate=" + this.getTechSuggestedDate() +
+                ", taskEstimatedDuration=" + this.getTaskEstimatedDuration() + ")";
+    }
 }
