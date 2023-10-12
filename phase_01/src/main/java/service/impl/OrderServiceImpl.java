@@ -54,7 +54,9 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderRepositoryImpl, Order
                         .orderRegistrationDateAndTime(LocalDateTime.now()).orderDescription(orderDescription)
                         .orderStatus(OrderStatus.WAITING_FOR_TECHNICIANS_SUGGESTIONS)
                         .technicianScore(1).build();
-                saveOrUpdate(order);
+                order = saveOrUpdate(order);
+                if(order != null)
+                    printer.printMessage("Order saved successfully with id of: " + order.getId());
             } catch (NotFoundException | DateTimeException | IllegalArgumentException e) {
                 printer.printError(e.getMessage());
             }
