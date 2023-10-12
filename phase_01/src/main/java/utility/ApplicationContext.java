@@ -26,6 +26,8 @@ public class ApplicationContext {
     private static final OrderRepositoryImpl orderRepository;
     private static final PersonRepositoryImpl personRepository;
     private static final SubAssistanceRepositoryImpl subAssistanceRepository;
+    private static final OrderDescriptionRepositoryImpl orderDescriptionRepository;
+    private static final TechnicianSuggestionRepositoryImpl technicianSuggestionRepository;
     public static final TechnicianRepositoryImpl technicianRepository;
     public static final AssistanceServiceImpl assistanceService;
     public static final CustomerServiceImpl customerService;
@@ -34,6 +36,8 @@ public class ApplicationContext {
     public static final PersonServiceImple personService;
     public static final SubAssistanceServiceImpl subAssistanceService;
     public static final TechnicianServiceImpl technicianService;
+    public static final OrderDescriptionServiceImpl orderDescriptionSerice;
+    public static final TechnicianSuggestionServiceImpl technicianSuggestionService;
 
     static{
         sourceAddress = "image_input";
@@ -59,5 +63,9 @@ public class ApplicationContext {
         subAssistanceService = new SubAssistanceServiceImpl(subAssistanceRepository);
         technicianRepository = new TechnicianRepositoryImpl(Technician.class);
         technicianService = new TechnicianServiceImpl(technicianRepository);
+        orderDescriptionRepository = new OrderDescriptionRepositoryImpl(OrderDescription.class);
+        orderDescriptionSerice = new OrderDescriptionServiceImpl(orderDescriptionRepository);
+        technicianSuggestionRepository = new TechnicianSuggestionRepositoryImpl(TechnicianSuggestion.class);
+        technicianSuggestionService = new TechnicianSuggestionServiceImpl(technicianSuggestionRepository);
     }
 }
