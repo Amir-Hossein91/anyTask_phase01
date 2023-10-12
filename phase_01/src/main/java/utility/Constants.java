@@ -19,7 +19,10 @@ public class Constants {
     public static final String COULD_NOT_SAVE_THE_TECHNICIAN_LIST = "Could not save the list of technicians";
     public static final String NO_UNAPPROVED_TECHNICIANS = "There is no unapproved technician";
     public static final String NO_DEACTIVATED_TECHNICIANS = "There is no deactivated technician";
-    public static final String INVALID_SUGGESTED_PRICE = "Customer suggested price can not be less than base price";
+    public static final String INVALID_SUGGESTED_PRICE = "Suggested price can not be less than base price";
     public static final String DATE_BEFORE_NOW = "Customer desired date/time can not be before current date/time";
+    public static final String DATE_BEFORE_CUSTOMER_DESIRED = "Technician suggested date/time can not be before customer desired date/time";
     public static final String NO_RELATED_ORDERS = "There are no related orders related to this technician";
+    public static final String ORDER_IS_NOT_RELATED = "This order is not related to this technician";
+    public static final String NO_SUCH_ORDER = "No order exists with this id";
 }
