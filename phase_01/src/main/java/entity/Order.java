@@ -22,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order extends BaseEntity {
-    @OneToOne
+    @ManyToOne
     private SubAssistance subAssistance;
     @OneToOne
     private Customer customer;

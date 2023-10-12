@@ -10,6 +10,7 @@ import utility.Printer;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class SubAssistance extends BaseEntity {
     private List<Technician> technicians;
     @ManyToOne
     private Assistance assistance;
+    @OneToMany(mappedBy = "subAssistance")
+    private List<Order> orders;
     @NotNull(message = "Sub-assistance should have some descriptions")
     private String about;
 
