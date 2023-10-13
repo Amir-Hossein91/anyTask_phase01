@@ -35,7 +35,7 @@ public class OrderDescription extends BaseEntity {
     public String toString() {
         return "\n\t\t" + super.toString() +
                 "\n\t\tcustomer_Suggested_Price = " + this.getCustomerSuggestedPrice() +
-                "\n\t\tcustomer_Desired_Date_And_Time = " + this.getCustomerDesiredDateAndTime() +
+                "\n\t\tcustomer_Desired_Date_And_Time = " + BaseEntity.getPersianDateTime(this.getCustomerDesiredDateAndTime()) +
                 "\n\t\ttask_Details = " + this.getTaskDetails() +
                 "\n\t\taddress = " + this.getAddress();
     }

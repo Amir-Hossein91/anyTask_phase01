@@ -38,9 +38,9 @@ public class TechnicianSuggestion extends BaseEntity {
         return "\n\t\t" + super.toString() +
                 "\n\t\ttechnician = " + this.getTechnician().getId() +
                 "\n\t\torder = " + this.getOrder().getId() +
-                "\n\t\tDate_And_Time_Of_Tech_Suggestion = " + this.getDateAndTimeOfTechSuggestion() +
+                "\n\t\tDate_And_Time_Of_Tech_Suggestion = " + BaseEntity.getPersianDateTime(this.getDateAndTimeOfTechSuggestion()) +
                 "\n\t\ttech_Suggested_Price = " + this.getTechSuggestedPrice() +
-                "\n\t\ttech_Suggested_Date = " + this.getTechSuggestedDate() +
+                "\n\t\ttech_Suggested_Date = " + BaseEntity.getPersianDateTime(this.getTechSuggestedDate()) +
                 "\n\t\ttask_Estimated_Duration = " + this.getTaskEstimatedDuration() + "\n" ;
     }
 }

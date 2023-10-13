@@ -49,6 +49,6 @@ public class Person extends BaseEntity {
                 "\n\t" + super.toString() +
                 "\n\temail = " + this.getEmail() +
                 "\n\tusername = " + this.getUsername() +
-                "\n\tregistrationDate = " + this.getRegistrationDate();
+                "\n\tregistrationDate = " + BaseEntity.getPersianDateTime(this.getRegistrationDate());
     }
 }

@@ -1,5 +1,6 @@
 package entity.dto;
 
+import entity.base.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,14 +23,14 @@ public class TechnicianSuggestionDTO {
     @Override
     public String toString() {
         return  "\tsuggestion_id = " + suggestionId +
-                "\n\tsuggestion_Registration_Date = " + suggestionRegistrationDate +
+                "\n\tsuggestion_Registration_Date = " + BaseEntity.getPersianDateTime(suggestionRegistrationDate) +
                 "\n\ttechnician_Firstname = '" + technicianFirstname + '\'' +
                 "\n\ttechnician_Lastname = '" + technicianLastname + '\'' +
                 "\n\ttechnician_Id = " + technicianId +
                 "\n\ttechnician_Score = " + technicianScore +
                 "\n\tnumber_Of_Finished_Tasks = " + numberOfFinishedTasks +
                 "\n\tsuggested_Price = " + suggestedPrice +
-                "\n\tsuggested_Date = " + suggestedDate +
+                "\n\tsuggested_Date = " + BaseEntity.getPersianDateTime(suggestedDate) +
                 "\n\ttask_Estimated)Duration = " + taskEstimatedDuration + " h";
     }
 }

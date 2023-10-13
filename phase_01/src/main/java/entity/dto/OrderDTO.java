@@ -1,6 +1,7 @@
 package entity.dto;
 
 import entity.OrderDescription;
+import entity.base.BaseEntity;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ public class OrderDTO {
                 "\n\tcustomer_First_name = '" + customerFirstname + '\'' +
                 "\n\tcustomer_Last_name = '" + customerLastname + '\'' +
                 "\n\tcustomer_Id = " + customerId +
-                "\n\torder_Date = " + orderDate +
+                "\n\torder_Date = " + BaseEntity.getPersianDateTime(orderDate) +
                 "\n\torder_Description : " + orderDescription ;
     }
 }
