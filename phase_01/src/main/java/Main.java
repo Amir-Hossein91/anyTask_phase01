@@ -1,13 +1,10 @@
-import com.github.mfathi91.time.PersianDate;
+
 import connection.Connection;
-import entity.base.BaseEntity;
 import service.impl.*;
 import utility.ApplicationContext;
 import utility.Printer;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
