@@ -5,6 +5,7 @@ import utility.ApplicationContext;
 import utility.Printer;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -30,30 +31,30 @@ public class Main {
 //        personService.login("amir","amir1234");
 
         //3) change password
-//        personService.changePassword("amir00","amir123456789","amir1234");
+//        personService.changePassword("amin1234","amin1234","aliali12");
 
         //4) Everyone can see the list of assistance(Technicians must be active)
-//        printer.printListWithoutSelect(assistanceService.seeAssistances("akbar"));
+//        printer.printListWithoutSelect(assistanceService.seeAssistances("amir"));
 
 ////////////////////////////////////////////////////////////MANAGER:
 
         //5) Manager can add assistance category
-//        assistanceService.addAssistance("amir","cleaning and hygiene");
+//        assistanceService.addAssistance("amir","hygiene");
 
         //6) Manager can add sub-assistance title
-//        subAssistanceService.addSubAssistance("amir","cleaning and hygiene","spraying");
+//        subAssistanceService.addSubAssistance("amir","hygiene","spraying");
 
         //7) Manager add a technician to a subAssistance
-//        technicianService.addTechnicianToSubAssistance("amir","akbar","spraying","cleaning and hygiene");
+//        technicianService.addTechnicianToSubAssistance("amir","ahmad1425","spraying","cleaning and hygiene");
 
         //8) Manager remove a technician from a subAssistance
-//        technicianService.removeTechnicianFromSubAssistance("amir","ali","checkup","car maintenance");
+//        technicianService.removeTechnicianFromSubAssistance("amir","akbar","spraying","cleaning and hygiene");
 
         //9) Manager can see the list of sub-assistance and their technicians and other details
 //        printer.printListWithoutSelect(subAssistanceService.showSubAssistances("amir"));
 
         //10) Manager can change the description of a sub-assistance
-//        subAssistanceService.changeDescription("amir","Home Appliances","audiovisual equipment","description changed by manager");
+//        subAssistanceService.changeDescription("amir","hygiene","spraying","description changed by manager");
 
         //11) Manager can change the base price of a sub-assistance
 //        subAssistanceService.changeBasePrice("amir","Home Appliances","audiovisual equipment",4000000);
@@ -91,7 +92,7 @@ public class Main {
 //        printer.printResult("All services",subAssistanceService.showSubAssistances("alireza"));
 
         //15) Customer makes an order
-//        orderService.makeOrder("alireza","cleaning and hygiene","spraying");
+        orderService.makeOrder("alireza","cleaning and hygiene","spraying");
 
         //??) Customer can see the list of his orders and their status
 //        printer.printListWithoutSelect(customerService.seeOrdersOf("alireza"));
