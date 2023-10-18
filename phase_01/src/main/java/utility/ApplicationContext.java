@@ -40,10 +40,10 @@ public class ApplicationContext {
     public static final TechnicianSuggestionServiceImpl technicianSuggestionService;
 
     static{
-        sourceAddress = "C:\\Users\\AmirHossein\\IdeaProjects\\anyTask\\image_input";
+        sourceAddress = "image_input";
         imageName = "technician_01";
         imageExtension = "jpg";
-        inputPath = Path.of("C:\\Users\\AmirHossein\\IdeaProjects\\anyTask\\image_input\\technician_01.jpg");
+        inputPath = Paths.get(sourceAddress,imageName+"."+imageExtension);
         outputPath = Paths.get("image_output/" + imageName + ".jpg");
         currentPersianDate = PersianDate.now();
         currentDate = currentPersianDate.toGregorian();
